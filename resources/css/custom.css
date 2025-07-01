@@ -53,14 +53,38 @@
             opacity: 0.8;
         }
 
+        .hamburger {
+            display: none; /* Tetap tersembunyi di desktop */
+            width: 32px;   /* 2rem */
+            height: 32px;  /* 2rem */
+            flex-direction: column;
+            justify-content: space-around;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 32px;       /* 2rem */
+            height: 4px;       /* 0.25rem */
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+            transform-origin: center;
+        }
         /* Hero Section */
         .hero {
             color: white;
-            padding: 4rem 0;
-            text-align: center;
-            /* Background */
             background: #578FCA;
 
+            /* --- Perubahan Utama Ada di Sini --- */
+            min-height: 100vh;      /* 1. Set tinggi minimalnya seukuran layar penuh */
+            display: flex;          /* 2. Aktifkan flexbox */
+            align-items: center;    /* 3. Pusatkan kontennya secara vertikal */
+            padding-top: 75px;      /* 4. Beri jarak atas seukuran header agar tidak tertutup */
         }
 
         .hero-content {
@@ -421,7 +445,7 @@
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            background: #578FCA;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -490,9 +514,47 @@
             }
 
             .nav-links {
-                display: none;
+                /* Ini adalah state ketika menu tertutup (tersembunyi) */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                background: #093FB4; /* Warna latar belakang menu */
+                
+                /* Bagian paling penting untuk membuatnya jadi overlay */
+                position: fixed; /* Mengeluarkannya dari alur normal */
+                height: 100vh;   /* Tinggi 100% layar */
+                width: 100%;     /* Lebar 100% layar */
+                top: 0;
+                left: -100%;     /* Sembunyikan di luar layar sebelah kiri */
+                z-index: 100;    /* Pastikan menu ada di lapisan paling atas */
+                
+                /* Efek transisi agar mulus */
+                transition: left 0.3s ease-in-out;
             }
             
+            .nav-links.active {
+                left: 0; /* Tampilkan menu */
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                /* Putar garis atas 45 derajat dan geser ke tengah */
+                transform: translateY(11px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                /* Sembunyikan garis tengah dengan membuatnya transparan */
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                /* Putar garis bawah -45 derajat dan geser ke tengah */
+                transform: translateY(-11px) rotate(-45deg);
+            }
+            .hamburger {
+                display: flex; /* Tampilkan hamburger di mobile */
+            }
             .testimonial-grid {
                 grid-template-columns: 1fr;
             }
@@ -534,3 +596,51 @@
             95% { transform: translateX(-1116px); }
             100% { transform: translateX(0); }
         }
+
+/* ========================================= */
+/* === STYLE UNTUK HALAMAN LOGIN/REGISTER === */
+/* ========================================= */
+
+/* Mengganti latar belakang halaman guest */
+.guest-layout-wrapper {
+    background-color: #eef2f9; /* Warna biru muda yang lembut */
+}
+
+/* Memberi style pada kotak form login/register */
+.guest-form-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+/* Mengubah style tombol utama */
+.guest-form-card button[type="submit"] {
+    background-color: #093FB4; /* Warna biru utama Anda */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.guest-form-card button[type="submit"]:hover {
+    background-color: #1e40af; /* Warna biru yang sedikit lebih gelap */
+}
+
+
+/* ========================================= */
+/* === STYLE UNTUK HALAMAN DASHBOARD      === */
+/* ========================================= */
+
+/* Mengubah warna header di dashboard */
+.dashboard-header {
+    background-color: #093FB4; /* Warna biru utama Anda */
+}
+
+/* Mengubah warna teks di header dashboard */
+.dashboard-header h2 {
+    color: white !important; /* !important untuk menimpa style bawaan */
+    font-weight: bold;
+}

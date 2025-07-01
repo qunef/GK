@@ -16,7 +16,13 @@
                 <li><a href="#home">Homepage</a></li>
                 <li><a href="#fitur">Fitur lengkap</a></li>
                 <li><a href="#tryout">Try Out</a></li>
+                <li><a href="#E-Learning">E-Learning</a></li>
             </ul>
+            <button class="hamburger" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
 
@@ -85,27 +91,29 @@
     <section class="program-section">
         <div class="container">
             <h2 class="section-title">Program yang Tersedia</h2>
-            <div class="program-card">
-                <div class="program-title">Kelas PLATINUM</div>
-                <ul class="program-features">
-                    <li>Bimbingan Sampai Pengumuman Tes Akhir Kedinasan 2025</li>
-                    <li>Bimbingan Online Via Zoom Sampai Lebih Dari 300 Sesi Sampai Selesai Tahapan Tes</li>
-                    <li>Materi Sesuai dengan Kisi kisi terbaru + Pembahasan</li>
-                    <li>Ruang Diskusi ke Alamat Medsos yang sudah tersedia (free ongkir)</li>
-                    <li>File Materi Setiap Selesai Sesi Bimbingan Dalam Bentuk PDF dan Video Rekaman</li>
-                    <li>TO SKD Mandiri</li>
-                    <li>Try Out SKD Bersama Rutin Terjadwal dan Pembahasan Tuntas</li>
-                    <li>Layanan Konsultasi Akademik dan Kedinasan</li>
-                    <li>Bonus Fasilitas Tes Kedinasan Tahap Lanjut</li>
-                </ul>
-                <div class="price">
-                    <div class="price-old">Rp1.500.000,00</div>
-                    <div class="price-current">Rp650.000,00</div>
-                </div>
-                <div style="text-align: center;">
-                    <a href="#daftar" class="btn-primary">Daftar Hari Ini</a>
-                </div>
-            </div>
+
+            @if($programs->isEmpty())
+                <p style="text-align: center;">Saat ini belum ada program yang tersedia.</p>
+            @else
+                @foreach($programs as $program)
+                    <div class="program-card" style="margin-bottom: 2rem;"> <div class="program-title">{{ $program->nama_kelas }}</div>
+                        <ul class="program-features">
+                            @foreach(json_decode($program->fitur) as $fitur)
+                                <li>{{ $fitur }}</li>
+                            @endforeach
+                        </ul>
+                        <div class="price">
+                            @if($program->harga_lama)
+                                <div class="price-old">Rp{{ number_format($program->harga_lama, 0, ',', '.') }},00</div>
+                            @endif
+                            <div class="price-current">Rp{{ number_format($program->harga_baru, 0, ',', '.') }},00</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <a href="#daftar" class="btn-primary">Daftar Hari Ini</a>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </section>
 
@@ -116,73 +124,16 @@
             <p class="testimonial-text">Berikut testimoni beberapa peserta yang berhasil menyelesaikan mimpinya lolos seleksi masuk sekolah kedinasan impian</p>
             
             <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Testimoni Peserta</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Nurdiaf Saifudin</div>
-                            <div style="font-size: 0.8rem;">STMKG</div>
-                        </div>
+                @forelse($testimonials as $testimonial)
+                    <div class="testimonial-card">
+                        <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni Siswa" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Testimoni Peserta</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Nurdiaf Saifudin</div>
-                            <div style="font-size: 0.8rem;">STMKG</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Testimoni Peserta</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Nurdiaf Saifudin</div>
-                            <div style="font-size: 0.8rem;">STMKG</div>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                    <p style="text-align: center; grid-column: 1 / -1;">Belum ada testimoni.</p>
+                @endforelse
             </div>
 
-            <h3 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">lolos dengan Nilai yang Memuaskan</h3>
-            
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Hasil Nilai Tinggi</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Hasil Test Memuaskan</div>
-                            <div style="font-size: 0.8rem;">Lolos STMKG</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Hasil Nilai Tinggi</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Hasil Test Memuaskan</div>
-                            <div style="font-size: 0.8rem;">Lolos STMKG</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-image">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🎓</div>
-                            <div>Hasil Nilai Tinggi</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Hasil Test Memuaskan</div>
-                            <div style="font-size: 0.8rem;">Lolos STMKG</div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
     </section>
 
     <!-- CTA Section -->
@@ -301,6 +252,15 @@
 
         // Handle window resize
         window.addEventListener('resize', updateCarousel);
+
+        // humbergur untuk navbar
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
     </script>
 </body>
 </html>
