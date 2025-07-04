@@ -48,8 +48,7 @@
             </nav>
 
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header class="bg-white shadow dashboard-header"> <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
@@ -63,5 +62,7 @@
         <footer class="bg-[#1e40af] text-white text-center py-4">
              <p>© 2025 Giat Kedinasan. All Rights Reserved.</p>
         </footer>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        @stack('scripts')
     </body>
 </html>

@@ -40,14 +40,18 @@ class ProgramController extends Controller
         // Ubah string fitur (satu per baris) menjadi array JSON
         $fiturArray = array_filter(array_map('trim', explode("\n", $request->fitur)));
 
-        Program::create([
+        $program = Program::create([
             'nama_kelas' => $request->nama_kelas,
             'fitur' => json_encode($fiturArray),
             'harga_baru' => $request->harga_baru,
             'harga_lama' => $request->harga_lama,
         ]);
 
-        return redirect()->route('programs.index')->with('success', 'Program berhasil ditambahkan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Program berhasil ditambahkan.',
+            'data'    => $program
+        ]);
     }
 
     /**
@@ -63,7 +67,7 @@ class ProgramController extends Controller
      */
     public function edit(Program $program)
     {
-        return view('admin.programs.edit', compact('program'));
+        return response()->json($program);
     }
 
     /**
@@ -87,7 +91,11 @@ class ProgramController extends Controller
             'harga_lama' => $request->harga_lama,
         ]);
 
-        return redirect()->route('programs.index')->with('success', 'Program berhasil diperbarui.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Program berhasil diperbarui.',
+            'data'    => $program
+        ]);
     }
 
     /**
@@ -96,6 +104,10 @@ class ProgramController extends Controller
     public function destroy(Program $program)
     {
         $program->delete();
-        return redirect()->route('programs.index')->with('success', 'Program berhasil dihapus.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Program berhasil dihapus.',
+            'data'    => $program
+        ]);
     }
 }
