@@ -15,6 +15,8 @@ class Program extends Model
      */
     protected $fillable = [
         'nama_kelas',
+        'gambar',
+        'periode_kelas',
         'fitur',
         'harga_lama',
         'harga_baru',

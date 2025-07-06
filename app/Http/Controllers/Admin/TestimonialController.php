@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage; // Penting untuk mengelola file
 
 class TestimonialController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar testimoni (tidak dipakai di dashboard AJAX, tapi baik untuk ada).
      */
     public function index()
     {
@@ -19,7 +19,7 @@ class TestimonialController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form tambah testimoni (tidak dipakai di dashboard AJAX).
      */
     public function create()
     {
@@ -27,7 +27,7 @@ class TestimonialController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan testimoni baru dan mengembalikan respons JSON.
      */
     public function store(Request $request)
     {
@@ -38,24 +38,36 @@ class TestimonialController extends Controller
         // Simpan gambar ke storage/app/public/testimonials
         $path = $request->file('gambar')->store('testimonials', 'public');
 
-        Testimonial::create([
+        // Buat record di database
+        $testimonial = Testimonial::create([
             'gambar' => $path,
         ]);
 
-        return redirect()->route('testimonials.index')->with('success', 'Testimoni berhasil ditambahkan.');
+        // Kembalikan respons JSON, BUKAN redirect.
+        return response()->json([
+            'success' => true,
+            'message' => 'Testimoni berhasil ditambahkan.',
+            'data'    => $testimonial // Kirim kembali data yang baru dibuat
+        ]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus testimoni dan mengembalikan respons JSON.
      */
     public function destroy(Testimonial $testimonial)
     {
-        // Hapus file gambar dari storage
-        Storage::disk('public')->delete($testimonial->gambar);
+        // Hapus file gambar dari storage terlebih dahulu
+        if (Storage::disk('public')->exists($testimonial->gambar)) {
+            Storage::disk('public')->delete($testimonial->gambar);
+        }
 
         // Hapus record dari database
         $testimonial->delete();
 
-        return redirect()->route('testimonials.index')->with('success', 'Testimoni berhasil dihapus.');
+        // Kembalikan respons JSON, BUKAN redirect.
+        return response()->json([
+            'success' => true,
+            'message' => 'Testimoni berhasil dihapus.'
+        ]);
     }
 }

@@ -50,8 +50,13 @@
                     <input type="hidden" id="program_id" name="program_id">
                     <div class="form-grid">
                         <input type="text" id="nama_kelas" name="nama_kelas" placeholder="Nama Kelas" required>
+                        <input type="text" id="periode_kelas" name="periode_kelas" placeholder="Periode Kelas (cth: Januari 2025)" required>
                         <input type="number" id="harga_baru" name="harga_baru" placeholder="Harga Baru (cth: 650000)" required>
                         <input type="number" id="harga_lama" name="harga_lama" placeholder="Harga Lama (Opsional)">
+                        <div class="md:col-span-2">
+                            <label for="gambar">Gambar Program (Opsional)</label>
+                            <input type="file" id="gambar" name="gambar"> {{-- INPUT BARU --}}
+                        </div>
                         <textarea id="fitur" name="fitur" rows="4" placeholder="Fitur (satu per baris)" class="md:col-span-2" required></textarea>
                     </div>
                     <div class="mt-4">
@@ -63,7 +68,9 @@
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>Gambar</th>
                                 <th>Nama Kelas</th>
+                                <th>Periode</th>
                                 <th>Fitur</th>
                                 <th>Harga Baru</th>
                                 <th>Harga Lama (Opsional)</th>
@@ -73,12 +80,16 @@
                         <tbody id="program-table-body">
                             @if($programs->isEmpty())
                                 <tr>
-                                    <td colspan="3" class="text-center">Belum ada program.</td>
+                                    <td colspan="5" class="text-center">Belum ada program.</td>
                                 </tr>
                             @endif
                             @foreach($programs as $program)
                                 <tr id="program-row-{{ $program->id }}">
+                                    <td>
+                                        <img src="{{ asset('storage/' . $program->gambar) }}" class="table-image" alt="Gambar Program">
+                                    </td>
                                     <td>{{ $program->nama_kelas }}</td>
+                                    <td>{{ $program->periode_kelas }}</td>
                                     <td>
                                         @php
                                             $fiturList = json_decode($program->fitur ?? '[]');
@@ -97,7 +108,7 @@
                                             -
                                         @endif
                                     </td>
-                                    <td class="action-buttons">
+                                    <td>
                                         <button class="btn-edit" data-id="{{ $program->id }}">Edit</button>
                                         <button class="btn-delete-program btn-hapus" data-id="{{ $program->id }}">Hapus</button>
                                     </td>
@@ -134,7 +145,7 @@
                                 <td>
                                     <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni" class="testimonial-image-item">
                                 </td>
-                                <td class="action-buttons">
+                                <td>
                                     <button class="btn-delete-testimoni btn-hapus" data-id="{{ $testimonial->id }}">Hapus</button>
                                 </td>
                             </tr>
@@ -185,10 +196,20 @@
             let programId = $('#program_id').val();
             let url = programId ? `/admin/programs/${programId}` : "{{ route('programs.store') }}";
             let method = programId ? 'PUT' : 'POST';
+
+            // Gunakan FormData untuk mengirim file
+            let formData = new FormData(this);
+            if (programId) {
+                formData.append('_method', 'PUT'); // Tambahkan method spoofing untuk update
+            }   
+
             $.ajax({
                 url: url,
-                type: method,
-                data: $(this).serialize(),
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                
                 success: function(response) {
                     showNotification(response.message);
                     location.reload(); 
@@ -196,6 +217,7 @@
                 error: function(xhr) { showNotification('Terjadi kesalahan.', false); }
             });
         });
+
         $(document).on('click', '.btn-edit', function() {
             let id = $(this).data('id');
             $.get(`/admin/programs/${id}/edit`, function(data) {
@@ -204,6 +226,12 @@
                 $('#harga_baru').val(data.harga_baru);
                 $('#harga_lama').val(data.harga_lama);
                 $('#fitur').val(JSON.parse(data.fitur || '[]').join('\n'));
+                $('#periode_kelas').val(data.periode_kelas);
+                if (data.gambar) {
+                    $('#current-image-preview').html(`<img src="/storage/${data.gambar}" class="h-20 w-auto rounded mt-2">`);
+                } else {
+                    $('#current-image-preview').html('');
+                }
                 $('#btn-submit-program').text('Update Program');
                 $('#btn-cancel-edit').removeClass('hidden');
                 $('html, body').animate({ scrollTop: 0 }, 500);
@@ -222,7 +250,7 @@
                 url: `/admin/programs/${id}`, type: 'DELETE',
                 success: function(response) {
                     showNotification(response.message);
-                    $(`#program-row-${id}`).fadeOut(400, function() { $(this).remove(); });
+                    location.reload();
                 }
             });
         });
@@ -251,7 +279,7 @@
                 url: `/admin/testimonials/${id}`, type: 'DELETE',
                 success: function(response) {
                     showNotification(response.message);
-                    $(`#testimonial-row-${id}`).fadeOut(400, function() { $(this).remove(); });
+                    location.reload();
                 }
             });
         });

@@ -5,7 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIAT Kedinasan - Program Persiapan Seleksi Sekolah Kedinasan Terbaik</title>
     @vite('resources/css/custom.css')
-    
+    @php
+        // Definisikan variabel di sini agar mudah diubah
+        $imageWidth = 450; // Lebar per gambar dalam px
+        $testimonialCount = $testimonials->count();
+        $animationDuration = $testimonialCount * 5; // Durasi animasi (misal: 5 detik per gambar)
+    @endphp
+
+    <style>
+        .slide-track {
+            animation: scroll {{ $animationDuration }}s linear infinite;
+            display: flex;
+            /* Lebar dihitung dinamis: (lebar gambar) x (jumlah testimoni x 2) */
+            width: calc({{ $imageWidth }}px * {{ $testimonialCount * 2 }});
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            /* Mundur sejauh jumlah gambar asli x lebar per gambar */
+            100% { transform: translateX(calc(-{{ $imageWidth }}px * {{ $testimonialCount }})); }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -13,10 +33,9 @@
         <nav class="nav">
             <div class="logo">🎓</div>
             <ul class="nav-links">
-                <li><a href="#home">Homepage</a></li>
-                <li><a href="#fitur">Fitur lengkap</a></li>
-                <li><a href="#tryout">Try Out</a></li>
-                <li><a href="#E-Learning">E-Learning</a></li>
+                <li><a href="">Homepage</a></li>
+                <li><a href="https://toskd.giatkedinasan.com/" target="_blank" rel="noopener noreferrer">Try Out</a></li>
+                <li><a href="https://learning.giatkedinasan.com/" target="_blank" rel="noopener noreferrer">E-Learning</a></li>
             </ul>
             <button class="hamburger" id="hamburger-menu">
                 <span></span>
@@ -96,12 +115,21 @@
                 <p style="text-align: center;">Saat ini belum ada program yang tersedia.</p>
             @else
                 @foreach($programs as $program)
-                    <div class="program-card" style="margin-bottom: 2rem;"> <div class="program-title">{{ $program->nama_kelas }}</div>
-                        <ul class="program-features">
-                            @foreach(json_decode($program->fitur) as $fitur)
-                                <li>{{ $fitur }}</li>
-                            @endforeach
-                        </ul>
+                    <div class="program-card" style="margin-bottom: 2rem;"> 
+                        <div class="program-period"> {{$program->periode_kelas}}</div>
+                        <div class="program-title">{{ $program->nama_kelas }}</div>
+                        <div class="program-content">
+                            <div class="program-image">
+                                @if($program->gambar)
+                                    <img src="{{ asset('storage/' . $program->gambar) }}" alt="{{ $program->nama_kelas }}" style="width: 100%; height: auto; border-radius: 8px;"> 
+                                @endif
+                            </div>
+                            <ul class="program-features">
+                                @foreach(json_decode($program->fitur) as $fitur)
+                                    <li>{{ $fitur }}</li>
+                                @endforeach
+                            </ul>   
+                        </div>
                         <div class="price">
                             @if($program->harga_lama)
                                 <div class="price-old">Rp{{ number_format($program->harga_lama, 0, ',', '.') }},00</div>
@@ -121,19 +149,27 @@
     <section class="testimonials">
         <div class="container">
             <h2 class="section-title">Testimoni</h2>
-            <p class="testimonial-text">Berikut testimoni beberapa peserta yang berhasil menyelesaikan mimpinya lolos seleksi masuk sekolah kedinasan impian</p>
-            
-            <div class="testimonial-grid">
-                @forelse($testimonials as $testimonial)
-                    <div class="testimonial-card">
-                        <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni Siswa" style="width: 100%; height: 100%; object-fit: cover;">
+            <p class="testimonial-text">Berikut testimoni beberapa peserta yang berhasil menyelesaikan mimpinya lolos seleksi masuk sekolah kedinasan impian.</p>
+        </div>
+        
+        {{-- Ini adalah container untuk slider --}}
+        <div class="testimonial-slider">
+            <div class="slide-track">
+                {{-- Tampilkan semua gambar testimoni --}}
+                @foreach($testimonials as $testimonial)
+                    <div class="slide">
+                        <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni Siswa">
                     </div>
-                @empty
-                    <p style="text-align: center; grid-column: 1 / -1;">Belum ada testimoni.</p>
-                @endforelse
-            </div>
+                @endforeach
 
+                {{-- DUPLIKAT: Tampilkan lagi semua gambar untuk efek looping tak terbatas --}}
+                @foreach($testimonials as $testimonial)
+                    <div class="slide">
+                        <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni Siswa">
+                    </div>
+                @endforeach
             </div>
+        </div>
     </section>
 
     <!-- CTA Section -->

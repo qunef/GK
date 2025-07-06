@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function () {
     //admin routes
     Route::resource('admin/programs', ProgramController::class);
     Route::resource('admin/testimonials', TestimonialController::class);
-
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
