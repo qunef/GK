@@ -12,7 +12,7 @@
         /* Header */
         .header {
             /* Background */
-            position: absolute;
+            position: fixed;
             height: 75px;
             left: 0px;
             right: 0px;
@@ -20,9 +20,10 @@
             margin: 0 auto;
             padding: 1rem 0;
             background: #093FB4;
-
+            z-index: 50;
         }
-
+        
+        
         .nav {
             max-width: 1200px;
             margin: 0 auto;
@@ -30,15 +31,23 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
+            height: 100%;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .mini-logo {
+            display: flex;
+            align-items: center;
         }
+        
+        .logo-mini {
+            height: 37px;
+            width: auto;
+        }
+
 
         .nav-links {
             display: flex;
+            align-items: center;
             gap: 2rem;
             list-style: none;
         }
@@ -78,11 +87,13 @@
         /* Hero Section */
         .hero {
             color: white;
-            background: #578FCA;
-            height: 620px;;     
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            min-height: 600px;;     
             display: flex;          /* 2. Aktifkan flexbox */
             align-items: center;    /* 3. Pusatkan kontennya secara vertikal */
             padding-top: 75px;      /* 4. Beri jarak atas seukuran header agar tidak tertutup */
+            padding-bottom: 2rem;   /* 4. Beri jarak bawah */
+            box-sizing: border-box; /* 5. Pastikan padding tidak menambah tinggi elemen */
         }
 
         .hero-content {
@@ -98,6 +109,7 @@
             flex: 1;
             text-align: left;
         }
+
         
         .hero h1 {
             font-size: 2.5rem;
@@ -112,21 +124,15 @@
         }
         
         .logo-section {
-            background: white;
             padding: 1rem 2rem;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
-        .logo-section h2 {
-            color: #1e40af;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .logo-section p {
-            color: #374151;
-            font-size: 1rem;
+        .logo-image {
+            width: 300px;
+            height: auto;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .btn-primary {
@@ -346,19 +352,20 @@
         
         /* Program Section */
         .program-section {
+            color: white;
             padding: 4rem 0;
             background: white;
         }
-        
+
         .program-card {
             background: linear-gradient(135deg, #60a5fa, #3b82f6);
             color: white;
             padding: 3rem;
             border-radius: 20px;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .program-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -367,7 +374,19 @@
             align-items: center;
             gap: 3rem;
         }
-        
+        .program-period {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .program-image {
+            flex: 2;
+            max-width: 600px;
+            border-radius: 20px;
+        }
+
         .program-title {
             background: rgba(255,255,255,0.2);
             padding: 0.5rem 1rem;
@@ -379,7 +398,7 @@
 
         .program-features {
             list-style: none;
-            flex: 1;
+            flex: 2;
             text-align: left;
         }
 
@@ -454,7 +473,7 @@
 
         /* CTA Section */
         .cta-section {
-            background: #578FCA;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -517,7 +536,7 @@
                 flex-direction: column;
                 text-align: center;
             }
-
+            
             .program-content {
                 flex-direction: column;
                 text-align: center;
@@ -649,7 +668,7 @@
 
 /* Mengganti class bawaan Breeze untuk header */
 .dashboard-header {
-    background-color: #093FB4 !important; /* Biru utama Anda */
+    background-color: #093FB4 !important; 
     color: white;
 }
 
@@ -664,7 +683,7 @@
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    
 }
 
 .dashboard-section h3 {
@@ -681,6 +700,8 @@
     border-radius: 8px;
     border: 1px solid #e2e8f0;
     margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
 }
 
 .crud-form h4 {
@@ -701,6 +722,7 @@
     background-color: #093FB4;
     color: white;
     padding: 0.5rem 1.5rem;
+    margin-top: 1rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -727,7 +749,7 @@
 }
 
 .data-table thead th {
-    background-color: #578FCA; /* Biru dari landing page */
+    background: linear-gradient(135deg, #60a5fa, #3b82f6); /* Biru dari landing page */
     color: white;
     font-weight: bold;
     text-transform: uppercase;
@@ -739,11 +761,16 @@
 }
 
 .data-table .table-image {
-    height: 40px;
+    height: 200px;
     width: auto;
     border-radius: 4px;
 }
 
+.testimonial-image-item {
+    height: 200px;
+    width: auto;
+    border-radius: 4px;
+}
 /* Tombol Aksi di dalam tabel */
 .action-buttons {
     display: flex;
@@ -832,3 +859,80 @@
     100% { transform: translateX(calc(-250px * 7)); } /* Mundur sejauh jumlah gambar asli */
 }
 
+/* ================================== */
+/* ===     STYLE HALAMAN LOGIN      === */
+/* ================================== */
+
+/* Latar Belakang Biru */
+.guest-container {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6); 
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Kotak Form Putih */
+.login-box {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Logo di Atas Form */
+.login-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.login-logo img {
+    height: 50px; /* Atur ukuran logo */
+    width: auto;
+    display: inline-block;
+}
+
+/* Styling Input Field Bawaan Breeze */
+.input-group input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #e2e8f0; /* Garis bawah abu-abu */
+    padding: 0.75rem 0.25rem;
+    font-size: 1rem;
+    background: transparent;
+    transition: border-color 0.3s;
+    box-shadow: none; /* Menghilangkan shadow bawaan */
+    border-radius: 0; /* Menghilangkan radius bawaan */
+}
+.input-group input:focus {
+    outline: none;
+    border-bottom-color: #093FB4; /* Garis bawah jadi biru saat aktif */
+    box-shadow: none;
+    --tw-ring-shadow: 0 0 #0000; /* Menghilangkan ring focus bawaan */
+}
+
+/* Tombol Login Biru */
+.btn-login {
+    width: 100%;
+    background: linear-gradient(135deg, #60a5fa, #3b82f6); /* Warna biru utama Anda */
+    color: white;
+    font-weight: bold;
+    margin-top: 2rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 50px; /* Membuat tombol menjadi lonjong */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Link Lupa Password */
+.link-forgot-password {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-decoration: none;
+}
+.link-forgot-password:hover {
+    text-decoration: underline;
+}

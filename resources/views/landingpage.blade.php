@@ -6,8 +6,7 @@
     <title>GIAT Kedinasan - Program Persiapan Seleksi Sekolah Kedinasan Terbaik</title>
     @vite('resources/css/custom.css')
     @php
-        // Definisikan variabel di sini agar mudah diubah
-        $imageWidth = 450; // Lebar per gambar dalam px
+        $imageWidth = 450;
         $testimonialCount = $testimonials->count();
         $animationDuration = $testimonialCount * 5; // Durasi animasi (misal: 5 detik per gambar)
     @endphp
@@ -31,7 +30,9 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <div class="logo">🎓</div>
+            <div class="mini-logo">
+                <img src="{{ Vite::asset('resources/img/logo2.png') }}" alt="logo2" class="logo-mini">
+            </div>
             <ul class="nav-links">
                 <li><a href="">Homepage</a></li>
                 <li><a href="https://toskd.giatkedinasan.com/" target="_blank" rel="noopener noreferrer">Try Out</a></li>
@@ -49,13 +50,12 @@
     <section class="hero">
         <div class="hero-content">
             <div class="logo-section">
-                <h2>GIAT</h2>
-                <p>KEDINASAN</p>
+                <img src="{{ Vite::asset('resources/img/logo1.png') }}" alt="logo" class="logo-image">
             </div>
             <div class="hero-text">
                 <h1>Program<br>Persiapan Seleksi Sekolah<br>Kedinasan Terbaik</h1>
                 <p>Sistem pembelajaran online terbaik dengan pendekatan yang tepat sasaran untuk membantu peserta tes berbagai sekolah kedinasan Polri & TNI yang sudah teruji dan terpercaya sejak 2019.</p>
-                <a href="#daftar" class="btn-primary">Daftar sekarang</a>
+                <a href="#program-section" class="btn-primary">Daftar sekarang</a>
             </div>
         </div>
     </section>
@@ -116,7 +116,7 @@
             @else
                 @foreach($programs as $program)
                     <div class="program-card" style="margin-bottom: 2rem;"> 
-                        <div class="program-period"> {{$program->periode_kelas}}</div>
+                        <div class="program-period"> Periode {{$program->periode_kelas}}</div>
                         <div class="program-title">{{ $program->nama_kelas }}</div>
                         <div class="program-content">
                             <div class="program-image">
