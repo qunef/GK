@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard - Giat Kedinasan</title>
-    
+    <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/img/logo2.png') }}">
     {{-- Memuat CSS Kustom Anda Langsung --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
@@ -30,6 +30,11 @@
                     </a>
                 </form>
             </div>
+            <button class="hamburger" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
 
@@ -65,57 +70,59 @@
                     </div>
                 </form>
                 <div class="overflow-x-auto">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Gambar</th>
-                                <th>Nama Kelas</th>
-                                <th>Periode</th>
-                                <th>Fitur</th>
-                                <th>Harga Baru</th>
-                                <th>Harga Lama (Opsional)</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="program-table-body">
-                            @if($programs->isEmpty())
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
                                 <tr>
-                                    <td colspan="5" class="text-center">Belum ada program.</td>
+                                    <th>Gambar</th>
+                                    <th>Nama Kelas</th>
+                                    <th>Periode</th>
+                                    <th>Fitur</th>
+                                    <th>Harga Baru</th>
+                                    <th>Harga Lama (Opsional)</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @endif
-                            @foreach($programs as $program)
-                                <tr id="program-row-{{ $program->id }}">
-                                    <td>
-                                        <img src="{{ asset('storage/' . $program->gambar) }}" class="table-image" alt="Gambar Program">
-                                    </td>
-                                    <td>{{ $program->nama_kelas }}</td>
-                                    <td>{{ $program->periode_kelas }}</td>
-                                    <td>
-                                        @php
-                                            $fiturList = json_decode($program->fitur ?? '[]');
-                                        @endphp
-                                        <ul class="list-disc pl-5">
-                                            @foreach($fiturList as $fitur)
-                                                <li>{{ $fitur }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>Rp{{ number_format($program->harga_baru) }}</td>
-                                    <td>
-                                        @if($program->harga_lama)
-                                            Rp{{ number_format($program->harga_lama) }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <button class="btn-edit" data-id="{{ $program->id }}">Edit</button>
-                                        <button class="btn-delete-program btn-hapus" data-id="{{ $program->id }}">Hapus</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody id="program-table-body">
+                                @if($programs->isEmpty())
+                                    <tr>
+                                        <td colspan="5" class="text-center">Belum ada program.</td>
+                                    </tr>
+                                @endif
+                                @foreach($programs as $program)
+                                    <tr id="program-row-{{ $program->id }}">
+                                        <td>
+                                            <img src="{{ asset('storage/' . $program->gambar) }}" class="table-image" alt="Gambar Program">
+                                        </td>
+                                        <td>{{ $program->nama_kelas }}</td>
+                                        <td>{{ $program->periode_kelas }}</td>
+                                        <td>
+                                            @php
+                                                $fiturList = json_decode($program->fitur ?? '[]');
+                                            @endphp
+                                            <ul class="list-disc pl-5">
+                                                @foreach($fiturList as $fitur)
+                                                    <li>{{ $fitur }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>Rp{{ number_format($program->harga_baru) }}</td>
+                                        <td>
+                                            @if($program->harga_lama)
+                                                Rp{{ number_format($program->harga_lama) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn-edit" data-id="{{ $program->id }}">Edit</button>
+                                            <button class="btn-delete-program btn-hapus" data-id="{{ $program->id }}">Hapus</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -127,31 +134,33 @@
                     <input type="file" name="gambar" required>
                     <button type="submit" class="btn-tambah mt-4">Upload Testimoni</button>
                 </form>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Gambar Testimoni</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if($testimonials->isEmpty())
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <td colspan="2" class="text-center">Belum ada testimoni.</td>
+                                <th>Gambar Testimoni</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endif
-                        @foreach($testimonials as $testimonial)
-                            <tr id="testimonial-row-{{ $testimonial->id }}">
-                                <td>
-                                    <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni" class="testimonial-image-item">
-                                </td>
-                                <td>
-                                    <button class="btn-delete-testimoni btn-hapus" data-id="{{ $testimonial->id }}">Hapus</button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if($testimonials->isEmpty())
+                                <tr>
+                                    <td colspan="2" class="text-center">Belum ada testimoni.</td>
+                                </tr>
+                            @endif
+                            @foreach($testimonials as $testimonial)
+                                <tr id="testimonial-row-{{ $testimonial->id }}">
+                                    <td>
+                                        <img src="{{ asset('storage/' . $testimonial->gambar) }}" alt="Testimoni" class="testimonial-image-item">
+                                    </td>
+                                    <td>
+                                        <button class="btn-delete-testimoni btn-hapus" data-id="{{ $testimonial->id }}">Hapus</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -273,17 +282,26 @@
             });
         });
         $(document).on('click', '.btn-delete-testimoni', function() {
-            if (!confirm('Anda yakin?')) return;
-            let id = $(this).data('id');
-            $.ajax({
-                url: `/admin/testimonials/${id}`, type: 'DELETE',
-                success: function(response) {
-                    showNotification(response.message);
-                    location.reload();
-                }
+                if (!confirm('Anda yakin?')) return;
+                let id = $(this).data('id');
+                $.ajax({
+                    url: `/admin/testimonials/${id}`, type: 'DELETE',
+                    success: function(response) {
+                        showNotification(response.message);
+                        location.reload();
+                    }
+                });
             });
         });
-    });
+
+        // humbergur untuk navbar
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
     </script>
 </body>
 </html>

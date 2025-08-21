@@ -9,6 +9,9 @@
         {{-- Memuat CSS --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/img/logo2.png') }}">
+        
+        {{-- Memuat font --}}
     </head>
     <body>
         {{-- Container utama dengan latar biru --}}

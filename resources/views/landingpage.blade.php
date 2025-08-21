@@ -10,7 +10,7 @@
         $testimonialCount = $testimonials->count();
         $animationDuration = $testimonialCount * 5; // Durasi animasi (misal: 5 detik per gambar)
     @endphp
-
+    <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/img/logo2.png') }}">
     <style>
         .slide-track {
             animation: scroll {{ $animationDuration }}s linear infinite;
@@ -34,9 +34,25 @@
                 <img src="{{ Vite::asset('resources/img/logo2.png') }}" alt="logo2" class="logo-mini">
             </div>
             <ul class="nav-links">
-                <li><a href="">Homepage</a></li>
-                <li><a href="https://toskd.giatkedinasan.com/" target="_blank" rel="noopener noreferrer">Try Out</a></li>
-                <li><a href="https://learning.giatkedinasan.com/" target="_blank" rel="noopener noreferrer">E-Learning</a></li>
+                <li><a href="#hero">Homepage</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle">E-Learning</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://learning.giatkedinasan.com/" target="_blank">SKD</a></li>
+                        <li><a href="https://psikotes.giatkedinasan.com/" target="_blank">Psikotes</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://toskd.giatkedinasan.com/" target="_blank">Try Out SKD Bersama</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle">Latihan</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://toskd.giatkedinasan.com/" target="_blank">SKD</a></li>
+                        <li><a href="https://stan.giatkedinasan.com/" target="_blank">TPA/TBI STAN</a></li>
+                        <li><a href="https://stis.giatkedinasan.com/" target="_blank">Matematika STIS</a></li>
+                        <li><a href="https://stmkg.giatkedinasan.com/" target="_blank">SKB STMKG</a></li>
+                    </ul>
+                </li>
+                
             </ul>
             <button class="hamburger" id="hamburger-menu">
                 <span></span>
@@ -47,7 +63,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="hero" class="hero">
         <div class="hero-content">
             <div class="logo-section">
                 <img src="{{ Vite::asset('resources/img/logo1.png') }}" alt="logo" class="logo-image">
@@ -107,7 +123,7 @@
     </section>
 
     <!-- Program Section -->
-    <section class="program-section">
+    <section id="program-section" class="program-section">
         <div class="container">
             <h2 class="section-title">Program yang Tersedia</h2>
 
@@ -177,8 +193,14 @@
         <div class="container">
             <h2 class="cta-title">Dapatkan Update Info Terbaru</h2>
             <div class="cta-buttons">
-                <a href="#" class="btn-facebook">📘 Join Grup Facebook</a>
-                <a href="#" class="btn-whatsapp">📱 Join Grup Whatsapp</a>
+                <a href="#" class="btn-facebook">
+                    <svg class="facebook-icon" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 2.03998C6.5 2.03998 2 6.52998 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.84998C10.44 7.33998 11.93 5.95998 14.22 5.95998C15.31 5.95998 16.45 6.14998 16.45 6.14998V8.61998H15.19C13.95 8.61998 13.56 9.38998 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C15.9164 21.5878 18.0622 20.3855 19.6099 18.57C21.1576 16.7546 22.0054 14.4456 22 12.06C22 6.52998 17.5 2.03998 12 2.03998Z"></path> </g></svg>
+                    Join Grup Facebook
+                </a>
+                <a href="#" class="btn-whatsapp">
+                    <svg class="whatsapp-icon" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>whatsapp [#128]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-300.000000, -7599.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M259.821,7453.12124 C259.58,7453.80344 258.622,7454.36761 257.858,7454.53266 C257.335,7454.64369 256.653,7454.73172 254.355,7453.77943 C251.774,7452.71011 248.19,7448.90097 248.19,7446.36621 C248.19,7445.07582 248.934,7443.57337 250.235,7443.57337 C250.861,7443.57337 250.999,7443.58538 251.205,7444.07952 C251.446,7444.6617 252.034,7446.09613 252.104,7446.24317 C252.393,7446.84635 251.81,7447.19946 251.387,7447.72462 C251.252,7447.88266 251.099,7448.05372 251.27,7448.3478 C251.44,7448.63589 252.028,7449.59418 252.892,7450.36341 C254.008,7451.35771 254.913,7451.6748 255.237,7451.80984 C255.478,7451.90987 255.766,7451.88687 255.942,7451.69881 C256.165,7451.45774 256.442,7451.05762 256.724,7450.6635 C256.923,7450.38141 257.176,7450.3464 257.441,7450.44643 C257.62,7450.50845 259.895,7451.56477 259.991,7451.73382 C260.062,7451.85686 260.062,7452.43903 259.821,7453.12124 M254.002,7439 L253.997,7439 L253.997,7439 C248.484,7439 244,7443.48535 244,7449 C244,7451.18666 244.705,7453.21526 245.904,7454.86076 L244.658,7458.57687 L248.501,7457.3485 C250.082,7458.39482 251.969,7459 254.002,7459 C259.515,7459 264,7454.51465 264,7449 C264,7443.48535 259.515,7439 254.002,7439" id="whatsapp-[#128]"> </path> </g> </g> </g> </g></svg>
+                    Join Grup Whatsapp
+                </a>
             </div>
             <p class="cta-description">Gabung grup dan dapatkan update info terbaru gratis</p>
         </div>
@@ -243,7 +265,11 @@
         }
 
         function autoPlay() {
-            currentSlide = (currentSlide + 1) % totalSlides;
+            currentSlide = (currentSlide + 1) % totalSlides; // Skip to next slide
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0; // Loop back to start
+            }
+            
             updateCarousel();
         }
 
@@ -283,8 +309,6 @@
             }
         });
 
-        // Start auto-play
-        startAutoPlay();
 
         // Handle window resize
         window.addEventListener('resize', updateCarousel);
@@ -296,6 +320,41 @@
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
+        });
+
+        // ===============================================
+        // === LOGIKA BARU UNTUK MENANGANI BANYAK DROPDOWN ===
+        // ===============================================
+        const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+        // Terapkan fungsionalitas pada setiap dropdown yang ditemukan
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('.dropdown-toggle');
+
+            toggle.addEventListener('click', function(event) {
+                // Mencegah link pindah halaman
+                event.preventDefault();
+                
+                // Tutup dropdown lain yang mungkin sedang terbuka
+                dropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('dropdown-active');
+                    }
+                });
+
+                // Buka atau tutup dropdown yang diklik
+                dropdown.classList.toggle('dropdown-active');
+            });
+        });
+
+        // Menutup semua dropdown jika klik di luar area menu
+        window.addEventListener('click', function(event) {
+            // Pastikan yang diklik bukan bagian dari dropdown manapun
+            if (!event.target.closest('.nav-item.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('dropdown-active');
+                });
+            }
         });
     </script>
 </body>

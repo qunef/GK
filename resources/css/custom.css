@@ -62,6 +62,49 @@
             opacity: 0.8;
         }
 
+        /* ================================== */
+        /* ===      STYLE UNTUK DROPDOWN    === */
+        /* ================================== */
+
+        .nav-item.dropdown {
+            position: relative; /* Diperlukan agar dropdown-menu bisa diposisikan */
+        }
+
+        .dropdown-menu {
+            display: none; /* Sembunyikan dropdown secara default */
+            position: absolute;
+            top: 100%; /* Posisikan tepat di bawah link utama */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #093FB4; /* Warna latar sama dengan header */
+            list-style: none;
+            z-index: 100; /* Pastikan dropdown muncul di atas elemen lain */
+            padding: 0.5rem 0;
+            margin-top: 10px; /* Beri sedikit jarak dari header */
+            border-radius: 8px;
+            min-width: 180px; /* Lebar minimum dropdown */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-menu li {
+            padding: 0;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            white-space: nowrap; /* Mencegah teks turun baris */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #578FCA; /* Warna highlight saat hover */
+            opacity: 1;
+        }
+
+        /* Tampilkan dropdown saat parent (.dropdown) di-hover */
+        .nav-item.dropdown.dropdown-active .dropdown-menu {
+            display: block;
+        }
         .hamburger {
             display: none; /* Tetap tersembunyi di desktop */
             width: 32px;   /* 2rem */
@@ -188,8 +231,8 @@
         
         .carousel-track {
             display: flex;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             gap: 2rem;
+            width: calc(382px * 12); /* Lebar card (350) + gap (32) = 382. Total card = 12 */
         }
         
         .feature-card {
@@ -490,6 +533,20 @@
             justify-content: center;
             flex-wrap: wrap;
         }
+        .facebook-icon {
+            color: white;
+            width: 30px;
+            height: auto;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: auto;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
 
         .btn-facebook {
             background: #1877f2;
@@ -528,6 +585,7 @@
             color: white;
             text-align: center;
             padding: 2rem 0;
+            width: 100%;
         }
 
         /* Responsive */
@@ -704,6 +762,13 @@
     max-width: 600px;
 }
 
+.table-container {
+    max-height: 500px; /* Atur tinggi maksimum tabel di sini */
+    overflow-y: auto;  /* Ini yang akan membuat scrollbar vertikal muncul */
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
 .crud-form h4 {
     font-size: 1.25rem;
     font-weight: 600;
@@ -854,11 +919,10 @@
 
 
 /* Keyframes untuk animasi scrolling */
-@keyframes scroll {
+@keyframes scroll-features {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-250px * 7)); } /* Mundur sejauh jumlah gambar asli */
+    100% { transform: translateX(calc(-382px * 7)); } /* Mundur sejauh jumlah card asli */
 }
-
 /* ================================== */
 /* ===     STYLE HALAMAN LOGIN      === */
 /* ================================== */
