@@ -46,6 +46,58 @@
     {{-- =============================================== --}}
     <main class="py-12" style="padding-top: 100px;"> {{-- Beri padding atas agar tidak tertutup header --}}
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-12">
+            <div class="dashboard-section">
+                <h3 class="section-heading">Manajemen "Why Choose"</h3>
+                <form id="form-fitur" class="crud-form" enctype="multipart/form-data">
+                    @csrf
+                    <h4 class="form-title">Tambah/Edit Fitur</h4>
+                    <input type="hidden" id="feature_id" name="feature_id">
+                    
+                    <div class="form-grid">
+                        <input type="text" id="judul_fitur" name="judul" placeholder="Judul Fitur" required>
+                        <div class="md:col-span-2">
+                            <textarea id="deskripsi_fitur" name="deskripsi" rows="3" placeholder="Deskripsi Singkat" required></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="gambar_fitur" class="text-sm">Gambar/Ikon Fitur (Kosongkan jika tidak ganti)</label>
+                            <input type="file" id="gambar_fitur" name="gambar">
+                            <div id="fitur-image-preview" class="mt-2"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" id="btn-submit-fitur" class="btn-tambah">Simpan Fitur</button>
+                        <button type="button" id="btn-cancel-edit-fitur" class="btn-edit hidden">Batal Edit</button>
+                    </div>
+                </form>
+
+                <div class="overflow-x-auto">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Gambar</th>
+                                    <th>Judul</th>
+                                    <th>Deskripsi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feature-table-body">
+                                @foreach($features as $feature)
+                                    <tr id="feature-row-{{ $feature->id }}">
+                                        <td><img src="{{ asset('storage/' . $feature->gambar) }}" class="table-image" style="height: 80px; width: 80px; object-fit: contain;"></td>
+                                        <td>{{ $feature->judul }}</td>
+                                        <td>{{ $feature->deskripsi }}</td>
+                                        <td>
+                                            <button class="btn-edit btn-edit-fitur" data-id="{{ $feature->id }}">Edit</button>
+                                            <button class="btn-delete-fitur btn-hapus" data-id="{{ $feature->id }}">Hapus</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             
             <div class="dashboard-section">
                 <h3 class="section-heading">Manajemen Program</h3>
@@ -196,7 +248,99 @@
                 $('#notification').addClass('translate-x-full').fadeOut();
             }, 3000);
         }
+        // ==================================
+        // === CRUD UNTUK FITUR (WHY CHOOSE) ===
+        // ==================================
+        $('#form-fitur').on('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            let featureId = $('#feature_id').val();
+            let url = featureId ? `/admin/features/${featureId}` : '{{ route('features.store') }}';
+            let method = featureId ? 'POST' : 'POST'; // Laravel handle POST for update with _method
+            if(featureId) {
+                formData.append('_method', 'PUT');
+            }
 
+            $.ajax({
+                type: method,
+                url: url,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: (data) => {
+                    let newRow = `
+                        <tr id="feature-row-${data.id}">
+                            <td><img src="${data.gambar_url || '{{ asset('storage/') }}/' + data.gambar}" class="table-image" style="height: 50px; width: 50px; object-fit: contain;"></td>
+                            <td>${data.judul}</td>
+                            <td>${data.deskripsi}</td>
+                            <td>
+                                <button class="btn-edit btn-edit-fitur" data-id="${data.id}">Edit</button>
+                                <button class="btn-delete-fitur btn-hapus" data-id="${data.id}">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+
+                    if (featureId) {
+                        $(`#feature-row-${featureId}`).replaceWith(newRow);
+                        showNotification('Fitur berhasil diupdate!');
+                    } else {
+                        $('#feature-table-body').append(newRow);
+                        showNotification('Fitur berhasil ditambahkan!');
+                    }
+
+                    $('#form-fitur')[0].reset();
+                    $('#feature_id').val('');
+                    $('#btn-submit-fitur').text('Simpan Fitur');
+                    $('#btn-cancel-edit-fitur').addClass('hidden');
+                    $('#fitur-image-preview').html('');
+                },
+                error: function(response) {
+                    showNotification('Gagal menyimpan. Periksa kembali isian Anda.', false);
+                }
+            });
+        });
+
+        // Tombol Edit Fitur
+        $(document).on('click', '.btn-edit-fitur', function() {
+            let feature_id = $(this).data('id');
+            $.get(`/admin/features/${feature_id}/edit`, function(data) {
+                $('#feature_id').val(data.id);
+                $('#judul_fitur').val(data.judul);
+                $('#deskripsi_fitur').val(data.deskripsi);
+                $('#fitur-image-preview').html(`<img src="{{ asset('storage/') }}/${data.gambar}" style="max-width: 100px; height: auto;">`);
+                $('#btn-submit-fitur').text('Update Fitur');
+                $('#btn-cancel-edit-fitur').removeClass('hidden');
+                $('html, body').animate({ scrollTop: $('#form-fitur').offset().top }, 500);
+            });
+        });
+
+        // Tombol Batal Edit Fitur
+        $('#btn-cancel-edit-fitur').on('click', function() {
+            $('#form-fitur')[0].reset();
+            $('#feature_id').val('');
+            $('#btn-submit-fitur').text('Simpan Fitur');
+            $(this).addClass('hidden');
+            $('#fitur-image-preview').html('');
+        });
+
+        // Tombol Hapus Fitur
+        $(document).on('click', '.btn-delete-fitur', function() {
+            let feature_id = $(this).data('id');
+            if (confirm('Apakah Anda yakin ingin menghapus fitur ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: `/admin/features/${feature_id}`,
+                    success: function(data) {
+                        $(`#feature-row-${feature_id}`).remove();
+                        showNotification('Fitur berhasil dihapus!');
+                    },
+                    error: function(error) {
+                        showNotification('Gagal menghapus fitur.', false);
+                    }
+                });
+            }
+        });
         // ==================
         // === CRUD PROGRAM ===
         // ==================

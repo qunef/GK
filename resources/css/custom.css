@@ -153,6 +153,14 @@
             text-align: left;
         }
 
+        .kampus {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: #fbbf24;
+            margin-top: -10px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
         
         .hero h1 {
             font-size: 2.5rem;
@@ -234,13 +242,18 @@
             gap: 2rem;
             width: calc(382px * 12); /* Lebar card (350) + gap (32) = 382. Total card = 12 */
         }
-        
+        .no_feature {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
         .feature-card {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
             padding: 3rem 2rem;
             border-radius: 20px;
             text-align: center;
-            min-width: 350px;
+            width: 500px;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
@@ -669,7 +682,7 @@
             }
             
             .feature-card {
-                min-width: 280px;
+                width: 300px;
                 padding: 2rem 1.5rem;
             }
         }
