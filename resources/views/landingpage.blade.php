@@ -136,7 +136,7 @@
                             <div class="price-current">Rp{{ number_format($program->harga_baru, 0, ',', '.') }},00</div>
                         </div>
                         <div style="text-align: center;">
-                            <a href="https://api.whatsapp.com/send?phone=6281919181251&text=Hallo%20ka%2C%20Saya%20ingin%20mendaftar%20dalam%20program%20persiapan%20tes%20sekolah%20kedinasan%202026" target="_blank" class="btn-primary">Daftar Hari Ini</a>
+                            <a href="https://api.whatsapp.com/send?phone=6281919181251&text=Hallo%20ka%2C%20Saya%20ingin%20mendaftar%20dalam%20program%20persiapan%20tes%20sekolah%20kedinasan%202026" target="_blank" class="btn-primary">Saya mau daftar</a>
                         </div>
                     </div>
                 @endforeach
